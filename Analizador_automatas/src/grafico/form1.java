@@ -23,7 +23,6 @@ import dk.brics.automaton.Automaton;
 public class form1 extends javax.swing.JFrame {
     public Pattern p;
     public String exp = "";
-    public int contador = 0;
     public String grafo="";
     private FileWriter archivo = null;
     private PrintWriter pw = null;
@@ -37,16 +36,24 @@ public class form1 extends javax.swing.JFrame {
      */
     public form1() {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(new Color(0,102,255));
         this.setSize(900, 550);
         jLabel2.setVisible(false);
         tfcadena.setVisible(false);
+        btnvcadena.setVisible(false);
         btCargarER.setOpaque(false);
         btCargarER.setBorderPainted(false);
         btCargarER.setContentAreaFilled(false);
         btVerAutomata.setOpaque(false);
         btVerAutomata.setBorderPainted(false);
         btVerAutomata.setContentAreaFilled(false);
+        btnvcadena.setOpaque(false);
+        btnvcadena.setBorderPainted(false);
+        btnvcadena.setContentAreaFilled(false);
+        btnlimpiar.setOpaque(false);
+        btnlimpiar.setBorderPainted(false);
+        btnlimpiar.setContentAreaFilled(false);
     }
 
     /**
@@ -64,6 +71,8 @@ public class form1 extends javax.swing.JFrame {
         btVerAutomata = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         tfcadena = new javax.swing.JTextField();
+        btnvcadena = new javax.swing.JButton();
+        btnlimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,45 +105,68 @@ public class form1 extends javax.swing.JFrame {
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 260, -1));
         getContentPane().add(tfcadena, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 210, 30));
 
+        btnvcadena.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnvcadena.setText("Verificar Cadena");
+        btnvcadena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnvcadenaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnvcadena, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, 180, 70));
+
+        btnlimpiar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnlimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Broom_64px.png"))); // NOI18N
+        btnlimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlimpiarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnlimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 230, 90, 80));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btCargarERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCargarERActionPerformed
-        if(contador == 0)
-        {
-            exp = ajustar_expresion(tfExpresionRegular.getText());
-            reinicio();
-            borraArchivo(textoBase);
-            borraArchivo(imagen);
-            grafico();
-            creaTexto();
-            creaImagen();
-            crear_expresion(exp);
-            contador = 1;
-            jLabel1.setVisible(false);
-            jLabel2.setVisible(true);
-            tfExpresionRegular.setVisible(false);
-            tfcadena.setVisible(true);
-            contador++;
-        }
-        else
-        {
-            Matcher m = p.matcher(tfcadena.getText());
-            if(m.matches() == true)
-            {
-                JOptionPane.showMessageDialog(null, "la cadena " + tfcadena.getText() + " es una cadena aceptada");
-            }
-            else
-            {
-                JOptionPane.showMessageDialog(null, "la cadena " + tfcadena.getText() + " no es una cadena aceptada");
-            }
-        }
+        exp = ajustar_expresion(tfExpresionRegular.getText());
+        reinicio();
+        borraArchivo(textoBase);
+        borraArchivo(imagen);
+        grafico();
+        creaTexto();
+        creaImagen();
+        crear_expresion(exp);
+        jLabel2.setVisible(true);
+        tfcadena.setVisible(true);
+        btnvcadena.setVisible(true);
     }//GEN-LAST:event_btCargarERActionPerformed
 
     private void btVerAutomataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVerAutomataActionPerformed
         repaint();
         new imagenAutomata().setVisible(true);
     }//GEN-LAST:event_btVerAutomataActionPerformed
+
+    private void btnvcadenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvcadenaActionPerformed
+        Matcher m = p.matcher(tfcadena.getText());
+        if(m.matches() == true)
+        {
+            JOptionPane.showMessageDialog(null, "la cadena " + tfcadena.getText() + " es una cadena aceptada");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "la cadena " + tfcadena.getText() + " no es una cadena aceptada");
+        }
+    }//GEN-LAST:event_btnvcadenaActionPerformed
+
+    private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
+        tfExpresionRegular.setText("");
+        tfcadena.setText("");
+        reinicio();
+        borraArchivo(textoBase);
+        borraArchivo(imagen);
+        btnvcadena.setVisible(false);
+        tfcadena.setVisible(false);
+        jLabel2.setVisible(false);
+    }//GEN-LAST:event_btnlimpiarActionPerformed
     
     private String ajustar_expresion(String expresion)
     {
@@ -290,6 +322,8 @@ public class form1 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCargarER;
     private javax.swing.JButton btVerAutomata;
+    private javax.swing.JButton btnlimpiar;
+    private javax.swing.JButton btnvcadena;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField tfExpresionRegular;
