@@ -19,6 +19,9 @@ public class imagenAutomata extends javax.swing.JFrame {
      */
     public imagenAutomata() {
         initComponents();
+        jButton1.setOpaque(false);
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
         this.setLocationRelativeTo(null);
         ImageIcon icono = new ImageIcon("C:\\Automatas\\grafo1.jpg");
         icono.getImage().flush();
